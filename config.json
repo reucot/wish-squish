@@ -8,7 +8,7 @@
         "mode":"${SQUISHY_LOG_MODE|DEBUG}"
     },
     "db":{
-        "driver":"postgress",
-        "path":"${SQUISHY_DB_HOST}"
+        "driver":"postgres",
+        "URL":"${SQUISHY_DB_HOST}"
     }
 }

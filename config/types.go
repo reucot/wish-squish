@@ -3,7 +3,7 @@ package config
 type Config struct {
 	Mode     string   `json:"mode" env:"SQUISHY_ENV"`
 	Host     string   `json:"host" env:"SQUISHY_HOST"`
-	Port     int      `json:"port" env:"SQUISHY_PORT"`
+	Port     string   `json:"port" env:"SQUISHY_PORT"`
 	Cert     string   `json:"cert" env:"SQUISHY_CERT"`
 	Log      Log      `json:"log"`
 	DBConfig DBConfig `json:"db"`

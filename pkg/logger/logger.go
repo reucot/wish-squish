@@ -11,10 +11,6 @@ import (
 
 var LogOutput *os.File
 
-type Entry struct {
-	*logrus.Entry
-}
-
 func ReloadLog() {
 	CloseLog()
 	OpenLog()
@@ -46,6 +42,10 @@ func CloseLog() error {
 	}
 
 	return nil
+}
+
+func Info(message string, v ...interface{}) {
+	logrus.Info(fmt.Sprintf(message, v...))
 }
 
 func Error(message string, v ...interface{}) {
