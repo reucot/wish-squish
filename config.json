@@ -9,6 +9,6 @@
     },
     "db":{
         "driver":"postgres",
-        "URL":"${SQUISHY_DB_HOST}"
+        "URL":"${SQUISHY_DB_URL}"
     }
 }

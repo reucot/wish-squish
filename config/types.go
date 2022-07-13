@@ -16,5 +16,5 @@ type Log struct {
 
 type DBConfig struct {
 	Driver string `json:"driver" env:"SQUISHY_DB_DRIVER"`
-	Host   string `json:"host" env:"SQUISHY_DB_HOST"`
+	Host   string `json:"host" env:"SQUISHY_DB_URL"`
 }
