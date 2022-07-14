@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"path/filepath"
 
 	"github.com/gookit/config/v2"
@@ -18,7 +19,8 @@ func Load() error {
 
 	config.AddDriver(json.Driver)
 
-	if filename, err = filepath.Abs(filepath.Join("../..", ".env")); err != nil {
+	if filename, err = filepath.Abs(filepath.Join("./", ".env")); err != nil {
+		fmt.Println(filename)
 		return err
 	}
 
@@ -26,7 +28,7 @@ func Load() error {
 		return err
 	}
 
-	if filename, err = filepath.Abs(filepath.Join("../..", "config.json")); err != nil {
+	if filename, err = filepath.Abs(filepath.Join("./", "config.json")); err != nil {
 		return err
 	}
 

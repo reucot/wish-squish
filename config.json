@@ -2,7 +2,7 @@
 
     "mode":"${SQUISHY_ENV|develop}",
     "host":"${SQUISHY_HOST|localhost}",
-    "port":"${SQUISHY_PORT|80}",
+    "port":"${SQUISHY_PORT|555}",
     "log":{
         "output": "log_file",
         "mode":"${SQUISHY_LOG_MODE|DEBUG}"
