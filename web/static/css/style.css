@@ -1,0 +1,13 @@
+body{
+    height: 100vh;
+}
+
+.signin_container{
+    padding-top: 30vh;
+}
+
+.signin_form{
+    border-radius: 15px;
+    padding: 20px;
+    border: 2px solid var(--bs-dark);
+}

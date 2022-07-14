@@ -7,7 +7,6 @@ import (
 	"path/filepath"
 
 	"github.com/labstack/echo/v4"
-	"github.com/reucot/wish-squish/config"
 	log "github.com/reucot/wish-squish/pkg/logger"
 )
 
@@ -29,19 +28,18 @@ type PagesHandler struct {
 
 func NewPages(e *echo.Echo) {
 
-	if err := initRender(e); err != nil {
-		log.Error("internal - controller - http - pages.go - NewPages(): %w", err)
+	if err := prepare(e); err != nil {
+		log.Error("internal - controller - http - pages.go - NewPages() - prepare(e): %w", err)
 		return
 	}
 
-	ph := PagesHandler{}
-
-	e.GET("/", ph.Main)
-	e.GET("/signin", ph.Signin)
-
+	if err := addPages(e); err != nil {
+		log.Error("internal - controller - http - pages.go - NewPages() - addPages(e): %w", err)
+		return
+	}
 }
 
-func initRender(e *echo.Echo) error {
+func prepare(e *echo.Echo) error {
 	filenames, err := filepath.Abs(filepath.Join("./", "/web/template/*.html"))
 
 	if err != nil {
@@ -52,13 +50,26 @@ func initRender(e *echo.Echo) error {
 		templates: template.Must(template.ParseGlob(filenames)),
 	}
 
+	e.Static("/static/", "web/static")
+
+	return nil
+}
+
+func addPages(e *echo.Echo) error {
+	ph := PagesHandler{}
+
+	e.GET("/", ph.Main)
+	e.GET("/signin", ph.Signin)
+	e.GET("/wishlist", ph.Wishlist)
+
 	return nil
 }
 
 func (h PagesHandler) Main(c echo.Context) error {
 
 	c.Render(http.StatusOK, "index.html", map[string]interface{}{
-		"Title": "Index",
+		"title":      "Wish Squishy",
+		"authorized": true,
 	})
 
 	return nil
@@ -66,8 +77,17 @@ func (h PagesHandler) Main(c echo.Context) error {
 
 func (h PagesHandler) Signin(c echo.Context) error {
 	c.Render(http.StatusOK, "signin.html", map[string]interface{}{
-		"Host":  config.Get().Host,
-		"Title": "Index",
+		"title":      "Wish Squishy",
+		"authorized": false,
+	})
+
+	return nil
+}
+
+func (h PagesHandler) Wishlist(c echo.Context) error {
+	c.Render(http.StatusOK, "wishlist.html", map[string]interface{}{
+		"title":      "Wish Squishy",
+		"authorized": true,
 	})
 
 	return nil
