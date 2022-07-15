@@ -4,6 +4,10 @@ import (
 	"github.com/go-playground/validator"
 )
 
+type Validator interface {
+	Validate(i interface{}) error
+}
+
 type WishValidator struct {
 	validator *validator.Validate
 }

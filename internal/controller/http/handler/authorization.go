@@ -4,11 +4,14 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
+
 	"github.com/reucot/wish-squish/internal/controller/http/dto"
+	"github.com/reucot/wish-squish/internal/service"
 	log "github.com/reucot/wish-squish/pkg/logger"
 )
 
 type AuthorizationHandler struct {
+	as service.AuthorizationService
 }
 
 func NewAuthorization(e *echo.Echo) {
@@ -27,13 +30,15 @@ func (h AuthorizationHandler) SignIn(c echo.Context) error {
 		ErrorResponse(c, http.StatusBadRequest, dto.Error{Message: err.Error()})
 	}
 
-	if err = c.Validate(req); err != nil {
-		log.Error("internal - controller - http - authorization - SignIn() - c.Validate(req): %s", err.Error())
-		ErrorResponse(c, http.StatusBadRequest, dto.Error{Message: err.Error()})
-		return err
-	}
+	// if err = c.Validate(req); err != nil {
+	// 	log.Error("internal - controller - http - authorization - SignIn() - c.Validate(req): %s", err.Error())
+	// 	ErrorResponse(c, http.StatusBadRequest, dto.Error{Message: err.Error()})
+	// 	return err
+	// }
 
-	log.Info("%v", req)
+	// if err = h.as.SignIn(c.Request().Context(), req.Model()); err != nil{
+
+	// }
 
 	c.Redirect(http.StatusFound, "/")
 
@@ -50,11 +55,11 @@ func (h AuthorizationHandler) SignUp(c echo.Context) error {
 		return err
 	}
 
-	if err = c.Validate(req); err != nil {
-		log.Error("internal - controller - http - authorization - SignUp() - c.Validate(req): %s", err.Error())
-		ErrorResponse(c, http.StatusBadRequest, dto.Error{Message: err.Error()})
-		return err
-	}
+	// if err = c.Validate(req); err != nil {
+	// 	log.Error("internal - controller - http - authorization - SignUp() - c.Validate(req): %s", err.Error())
+	// 	ErrorResponse(c, http.StatusBadRequest, dto.Error{Message: err.Error()})
+	// 	return err
+	// }
 
 	log.Info("%v", req)
 
