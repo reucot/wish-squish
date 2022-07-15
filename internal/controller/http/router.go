@@ -3,7 +3,10 @@ package http
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+
 	"github.com/reucot/wish-squish/config"
+	"github.com/reucot/wish-squish/internal/controller/http/handler"
+	"github.com/reucot/wish-squish/internal/controller/http/validator"
 )
 
 func NewRouter(e *echo.Echo) {
@@ -14,7 +17,8 @@ func NewRouter(e *echo.Echo) {
 		e.Use(middleware.Recover())
 	}
 
-	NewPages(e)
-	NewAuthorization(e)
+	e.Validator = validator.NewWishValidator(validator.RegisterValidatorForPassword("password"))
 
+	handler.NewPages(e)
+	handler.NewAuthorization(e)
 }

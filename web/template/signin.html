@@ -2,23 +2,25 @@
 
 {{template "menu"}}
 
-<div class="container signin_container">
-    <div class="row justify-content-md-center">
-        <div class="signin_form col-4">
-            <form action="/signin" method="post">
+<div class="signin_wrapper">
+    <div class="container signin_container">
+        <h4>Авторизация</h4>
+        <div class="row justify-content-md-center">
+            <div class="signin_form col-4">
+                <form action="/signin" method="post">
                     <div class="mb-3">
                         <label for="InputEmail" class="form-label">Email адресс</label>
-                        <input type="email" class="form-control" id="InputEmail" name="email">
+                        <input type="email" name="email" class="form-control" id="InputEmail">
                     </div>
                     <div class="mb-3">
                         <label for="InputPassword" class="form-label">Пароль</label>
-                        <input type="password" class="form-control" id="InputPassword" name="password">
+                        <input type="password" name="password" class="form-control" id="InputPassword">
                     </div>
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">Войти</button>
+                        <button type="submit" class="btn btn-danger">Войти</button>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </div>
