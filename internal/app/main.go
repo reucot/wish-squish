@@ -26,6 +26,8 @@ func Run() {
 	v1.NewRouter(handler)
 	httpServer := httpserver.New(handler, httpserver.Port(config.Get().Port))
 
+	log.Info("Server starting http://%s:%s", config.Get().Host, config.Get().Port)
+
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt, syscall.SIGTERM)
 
