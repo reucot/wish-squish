@@ -5,14 +5,15 @@ import (
 
 	"github.com/labstack/echo/v4"
 
-	"github.com/reucot/wish-squish/internal/controller/http/binder"
 	"github.com/reucot/wish-squish/internal/controller/http/dto"
+	"github.com/reucot/wish-squish/internal/controller/http/validator"
 	"github.com/reucot/wish-squish/internal/service"
 	log "github.com/reucot/wish-squish/pkg/logger"
 )
 
 type AuthorizationHandler struct {
-	as service.AuthorizationService
+	as    service.AuthorizationService
+	Error Error
 }
 
 func NewAuthorization(e *echo.Echo) {
@@ -27,9 +28,15 @@ func (h AuthorizationHandler) SignIn(c echo.Context) error {
 	var err error
 
 	if err = c.Bind(&req); err != nil {
-		log.Error("internal - controller - http - authorization - SignIn() - c.Bind(req): %s", err.Error())
-		e := dto.NewError(binder.ValidationErrors(err))
-		ErrorResponse(c, http.StatusBadRequest, e)
+		log.Error("internal - controller - http - authorization - SignIn() - c.Bind(&req): %s", err.Error())
+		h.Error.SetContext(c).SetError(dto.NewError(err)).Response(http.StatusBadRequest)
+		return err
+	}
+
+	if err = c.Validate(&req); err != nil {
+		log.Error("internal - controller - http - authorization - SignIn() - c.Validate(&req): %s", err.Error())
+		h.Error.SetContext(c).SetError(dto.NewError(validator.GetErrors(err))).Response(http.StatusBadRequest)
+		return err
 	}
 
 	c.Redirect(http.StatusFound, "/")
@@ -42,12 +49,16 @@ func (h AuthorizationHandler) SignUp(c echo.Context) error {
 	var err error
 
 	if err = c.Bind(&req); err != nil {
-		log.Error("internal - controller - http - authorization - SignUp() - c.Bind(req): %s", err.Error())
-		//ErrorResponse(c, http.StatusBadRequest, dto.Error{Message: err.Error(), Error: binder.ValidationErrors(err)})
+		log.Error("internal - controller - http - authorization - SignUp() - c.Bind(&req): %s", err.Error())
+		h.Error.SetContext(c).SetError(dto.NewError(err)).Response(http.StatusBadRequest)
 		return err
 	}
 
-	log.Info("%v", req)
+	if err = c.Validate(&req); err != nil {
+		log.Error("internal - controller - http - authorization - SignUn() - c.Validate(&req): %s", err.Error())
+		h.Error.SetContext(c).SetError(dto.NewError(validator.GetErrors(err))).Response(http.StatusBadRequest)
+		return err
+	}
 
 	c.Redirect(http.StatusFound, "/")
 

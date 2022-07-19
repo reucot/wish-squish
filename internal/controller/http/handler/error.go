@@ -5,6 +5,26 @@ import (
 	"github.com/reucot/wish-squish/internal/controller/http/dto"
 )
 
-func ErrorResponse(ctx echo.Context, c int, e dto.Error) {
-	ctx.JSON(c, e)
+type Error struct {
+	ctx echo.Context
+	err dto.Error
+}
+
+func (e *Error) SetError(err dto.Error) *Error {
+	e.err = err
+	return e
+}
+
+// func (e *Error) SetErrors(err dto.Error) *Error {
+// 	e.err = err.Err.()
+// 	return e
+// }
+
+func (e *Error) SetContext(ctx echo.Context) *Error {
+	e.ctx = ctx
+	return e
+}
+
+func (e *Error) Response(c int) {
+	e.ctx.JSON(c, e.err)
 }

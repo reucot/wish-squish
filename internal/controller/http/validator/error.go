@@ -1,4 +1,4 @@
-package binder
+package validator
 
 import (
 	"fmt"
@@ -7,8 +7,10 @@ import (
 )
 
 type ErrorField struct {
-	Field string `json:"field"`
-	Tag   string `json:"tag"`
+	Field string      `json:"field"`
+	Value interface{} `json:"value"`
+	Tag   string      `json:"tag"`
+	Msg   string      `json:"error_msg"`
 }
 
 const _defaultCapacity int = 4
@@ -17,7 +19,11 @@ type Error struct {
 	Errors []ErrorField `json:"errors"`
 }
 
-func ValidationErrors(err error) error {
+func (e *ErrorField) Error() string {
+	return e.Msg
+}
+
+func GetErrors(err error) error {
 
 	errs := err.(validator.ValidationErrors)
 
@@ -26,7 +32,9 @@ func ValidationErrors(err error) error {
 	for _, err := range errs {
 		e = append(e, ErrorField{
 			Field: err.Field(),
+			Value: err.Value(),
 			Tag:   err.Tag(),
+			Msg:   fmt.Sprintf(`Field '%s' failed: on tag '%s', current value: '%v'`, err.Field(), err.Tag(), err.Value()),
 		})
 	}
 
@@ -34,9 +42,5 @@ func ValidationErrors(err error) error {
 }
 
 func (e *Error) Error() string {
-	s := ""
-	for _, err := range e.Errors {
-		s += fmt.Sprintf("Field \"%s\": on tag \"%s\"\n", err.Field, err.Tag)
-	}
-	return s
+	return "Validation errors"
 }
