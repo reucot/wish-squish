@@ -1,9 +1,6 @@
 package service
 
 import (
-	"context"
-
-	"github.com/reucot/wish-squish/internal/entity"
 	"github.com/reucot/wish-squish/internal/storage/psql"
 )
 
@@ -17,9 +14,9 @@ func NewAuthorizationService(ap *psql.AuthorizationPsql) *AuthorizationService {
 	}
 }
 
-func (s AuthorizationService) SignUp(ctx context.Context, su *entity.SignUp) error {
-	return nil
-}
+//func (s AuthorizationService) SignUp(ctx context.Context, su *models.SignUp) error {
+//	return nil
+//}
 
 func (s AuthorizationService) SignIn() {
 
