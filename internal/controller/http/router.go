@@ -3,7 +3,6 @@ package http
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-
 	"github.com/reucot/wish-squish/config"
 	"github.com/reucot/wish-squish/internal/controller/http/handler"
 	"github.com/reucot/wish-squish/internal/controller/http/validator"
@@ -21,4 +20,13 @@ func NewRouter(e *echo.Echo) {
 
 	handler.NewPages(e)
 	handler.NewAuthorization(e)
+
+	//repos := repository.NewRepository(nil)
+	//services := service.NewService(repos)
+	//handler := handler.NewWishHandler(services)
+
+	// Middleware
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+
 }

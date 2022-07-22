@@ -7,13 +7,8 @@ type SignUp struct {
 	Password string `json:"password" form:"password" validate:"required,password"`
 }
 
-func (su SignUp) Model() *models.SignUp {
-	return &models.SignUp{
-		User: models.User{
-			Email:    su.Email,
-			Password: su.Password,
-		},
-	}
+func (su SignUp) Model() *models.User {
+	return &models.User{}
 }
 
 type SignIn struct {
@@ -21,11 +16,6 @@ type SignIn struct {
 	Password string `json:"password" form:"password" validate:"required,password"`
 }
 
-func (su SignIn) Model() *models.SignIn {
-	return &models.SignIn{
-		User: models.User{
-			Email:    su.Email,
-			Password: su.Password,
-		},
-	}
+func (su SignIn) Model() *models.User {
+	return &models.User{}
 }

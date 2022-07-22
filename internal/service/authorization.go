@@ -1,16 +1,16 @@
 package service
 
 import (
-	"github.com/reucot/wish-squish/internal/storage/psql"
+	"github.com/reucot/wish-squish/internal/storage/repository"
 )
 
 type AuthorizationService struct {
-	ap psql.AuthorizationPsql
+	ap repository.Authorization
 }
 
-func NewAuthorizationService(ap *psql.AuthorizationPsql) *AuthorizationService {
+func NewAuthorizationService(ap repository.Authorization) *AuthorizationService {
 	return &AuthorizationService{
-		ap: *ap,
+		ap: ap,
 	}
 }
 
